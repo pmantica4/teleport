@@ -110,6 +110,55 @@ There can multiple clients subscribed to subscribed a job's output. Each individ
 
 ### **3. gRPC Server**
 
+#### **API Interface**
+
+Here are the proposed proto definitions for the API:
+
+```proto
+service JobService {
+    rpc Start(JobStartRequest) returns (JobStartResponse);
+    rpc Stop(JobStopRequest) returns (JobStopResponse);
+    rpc QueryStatus(JobQueryRequest) returns (JobInfo);
+    rpc SubscribeOutput(JobSubscriptionRequest) returns (stream JobOutputResponse); // Updated for streaming
+}
+
+message JobStartRequest {
+    string command = 1;
+    repeated string args = 2;
+}
+
+message JobStartResponse {
+    string jobId = 1;
+}
+
+message JobStopRequest {
+    string jobId = 1;
+}
+
+message JobStopResponse {
+    string status = 1; // e.g., "stopped", "not found", "error"
+    string message = 2; // e.g., "Job successfully stopped", "Job not found", etc.
+}
+
+message JobQueryRequest {
+    string jobId = 1;
+}
+
+message JobSubscriptionRequest {
+    string jobId = 1;
+}
+
+message JobInfo {
+    string jobId = 1;
+    string status = 2; // e.g., "running", "stopped", "completed"
+}
+
+message JobOutputResponse {
+    bytes stdout = 1;
+    bytes stderr = 2;
+}
+```
+
 #### **Functionality**
 
 The gRPC will wrap the library and will similarly have methods for starting, stopping and querying job status/logs. To support streaming, it will continually read from a job's logs in a blocking fashing and stream data back to the client using gRPC streams.  
