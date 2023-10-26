@@ -17,7 +17,7 @@ In this design, we aim to implement the level 5 requirements. This means that we
 
 ### **1. Command-Line User Experience (CLI UX)**
 
-The CLI will allow users to start and stop a job, query a job's state and stream their output. Below are some example commands. For job ids we are using the 12 character UUIDs. We are not using sequential numerical ids to prevent malicious users from guessing job ids.   
+The CLI will allow users to start and stop a job, query a job's state and stream their output. Below are some example commands. For job ids we are using random 12 character IDs. We are not using sequential numerical ids to prevent malicious users from guessing job ids.   
 
 * **Starting a Job:**  
   ```
