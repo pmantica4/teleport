@@ -40,6 +40,7 @@ The CLI will allow users to start and stop a job, query a job's state and stream
 * **Query Job Status:**
   ```
   $ cli status 4d5c9fa91db4
+  running, completed, failed or terminated 
   ```
 
 * **Viewing Job Output:**  
@@ -86,7 +87,7 @@ type struct LogReader {
 // Managing jobs and queueing job status
 StartJob(command string, args ...string) (*Job, error)
 func (job *Job) Stop() error
-func (job *Job) GetStatus() error
+func (job *Job) GetStatus() string
 
 // Reading job output
 func (job *Job) GetNewLogReader() (*LogReader, error)
